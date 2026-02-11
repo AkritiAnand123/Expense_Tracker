@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>💰 Expense Tracker</h1>
+    </header>
+
+    <!-- SUMMARY CARDS -->
+    <div class="summary">
+        <div class="card total">
+            <h3>Total Spent</h3>
+            <p>₹ <%= totalAmount %>
+            </p>
+        </div>
+        <div class="card weekly">
+            <h3>Weekly Total</h3>
+            <p>₹ <%= weeklyTotal %>
+            </p>
+        </div>
+        <div class="card monthly">
+            <h3>Monthly Total</h3>
+            <p>₹ <%= monthlyTotal %>
+            </p>
+        </div>
+        <div class="card yearly">
+            <h3>Yearly Total</h3>
+            <p>₹ <%= yearlyTotal %>
+            </p>
+        </div>
+        <div class="card budget">
+            <h3>Monthly Budget</h3>
+            <p>₹ <%= monthlyBudget %>
+            </p>
+        </div>
+        <div class="card savings">
+            <h3>Savings</h3>
+            <p>₹ <%= savings %>
+            </p>
+            <% if(savings < 0) { %>
+                <span class="warning">⚠ Over Budget!</span>
+                <% } %>
+        </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+        <a href="/set-budget" class="btn">Set Monthly Budget</a>
+        <a href="/add-expense" class="btn">Add New Expense</a>
+    </div>
+
+    <!-- EXPENSE LIST -->
+    <h2>All Expenses</h2>
+    <ul class="expense-list">
+        <% if(expenses.length===0) { %>
+            <li>No expenses added yet</li>
+            <% } %>
+
+                <% expenses.forEach((expense, index)=> { %>
+                    <li>
+                        <span>
+                            <strong>
+                                <%= expense.title %>
+                            </strong> | ₹ <%= expense.amount %> | <%= expense.category %> | <%=
+                                        expense.date.toLocaleDateString() %>
+                        </span>
+                        <form action="/delete-expense" method="POST">
+                            <input type="hidden" name="expenseIndex" value="<%= index %>">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </li>
+                    <% }) %>
+    </ul>
+
+</body>
+
+</html>
